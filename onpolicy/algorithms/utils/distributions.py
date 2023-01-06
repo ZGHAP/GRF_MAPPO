@@ -76,7 +76,14 @@ class DiagGaussian(nn.Module):
         def init_(m): 
             return init(m, init_method, lambda x: nn.init.constant_(x, 0), gain)
 
-        self.fc_mean = init_(nn.Linear(num_inputs, num_outputs))
+        #self.fc_mean = init_(nn.Linear(num_inputs, num_outputs))
+        hidden_size = 128
+        self.fc_mean = init_(nn.Sequential(
+                             nn.Linear(num_inputs, hidden_size),
+                             nn.ReLU(),
+                             nn.Linear(hidden_size, hidden_size),
+                             nn.ReLU(),
+                             nn.Linear(hidden_size, num_outputs)))
         self.logstd = AddBias(torch.zeros(num_outputs))
 
     def forward(self, x):

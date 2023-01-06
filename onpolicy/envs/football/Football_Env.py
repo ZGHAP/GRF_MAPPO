@@ -16,9 +16,7 @@ class FootballEnv(object):
         if not (args.use_render and args.save_videos) or True:
             self.env = football_env.create_environment(
                 env_name=args.scenario_name,
-                #stacked=args.use_stacked_frames,
-                stacked=False,
-                #representation='raw',
+                stacked=args.use_stacked_frames,
                 representation=args.representation,
                 rewards=args.rewards,
                 number_of_left_players_agent_controls=args.num_agents,
@@ -26,6 +24,7 @@ class FootballEnv(object):
                 channel_dimensions=(args.smm_width, args.smm_height),
                 render=(args.use_render and args.save_gifs)
             )
+            #print(f'init act shape {self.env.action_space.n}')
 
         else:
             # render env and save videos
@@ -60,7 +59,8 @@ class FootballEnv(object):
         else:
             for idx in range(self.num_agents):
                 self.action_space.append(spaces.Discrete(
-                    n=self.env.action_space[idx].n
+                    n=19
+                    #n=self.env.action_space[idx].n
                 ))
                 #Box()整段是gym中action的定义空间,此段是堆叠出[act1,act2,act3]
                 self.observation_space.append(spaces.Box(
@@ -75,11 +75,15 @@ class FootballEnv(object):
                     shape=self.env.observation_space.shape[1:],
                     dtype=self.env.observation_space.dtype
                 ))
+        
+        #print(f' env act {self.action_space}')
+        #print(f' env ob {self.observation_space}')
+        #print(f' env sob {self.share_observation_space}')
 
 
     def reset(self):
         obs = self.env.reset()
-        print(f'reset obs {obs}')
+        #print(f'reset obs {obs}')
         obs = self._obs_wrapper(obs)
         return obs
 
