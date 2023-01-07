@@ -32,7 +32,8 @@ class R_Actor(nn.Module):
         obs_shape = get_shape_from_obs_space(obs_space)
         base = CNNBase if len(obs_shape) == 3 else MLPBase
         base = MLPBase
-        print(base,obs_shape)
+        print('net ouput')
+        print(base,obs_shape,obs_space)
         self.base = base(args, obs_shape)
 
         if self._use_naive_recurrent_policy or self._use_recurrent_policy:

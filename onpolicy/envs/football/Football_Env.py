@@ -56,13 +56,14 @@ class FootballEnv(object):
             self.action_space.append(self.env.action_space)
             self.observation_space.append(self.env.observation_space)
             self.share_observation_space.append(self.env.observation_space)
+            print(self.env.observation_space.shape)
         else:
             for idx in range(self.num_agents):
                 self.action_space.append(spaces.Discrete(
                     n=19
                     #n=self.env.action_space[idx].n
                 ))
-                #Box()整段是gym中action的定义空间,此段是堆叠出[act1,act2,act3]
+                #Box()整段是gym中obs的定义空间,此段是堆叠出[act1,act2,act3]
                 self.observation_space.append(spaces.Box(
                     low=self.env.observation_space.low[idx],
                     high=self.env.observation_space.high[idx],

@@ -97,7 +97,7 @@ class FootballRunner(Runner):
             np.concatenate(self.buffer.masks[step])
         )
 
-        print(f'collect actions\n {actions}')
+        #print(f'collect actions\n {actions}')
 
         # [n_envs*n_agents, ...] -> [n_envs, n_agents, ...]
         values = np.array(np.split(_t2n(values), self.n_rollout_threads))
